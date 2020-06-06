@@ -38,7 +38,7 @@ import {
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
-    ThemeModule.forRoot(),
+    ThemeModule.forRoot() 
   ],
   bootstrap: [AppComponent],
 })

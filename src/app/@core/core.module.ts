@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_RIPPLE_GLOBAL_OPTIONS } from '@angular/material/core';
-import { NbAuthModule, NbDummyAuthStrategy } from '@nebular/auth';
+import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -93,7 +93,7 @@ const DATA_SERVICES = [
   { provide: StatsProgressBarData, useClass: StatsProgressBarService },
   { provide: VisitorsAnalyticsData, useClass: VisitorsAnalyticsService },
   { provide: SecurityCamerasData, useClass: SecurityCamerasService },
-  {provide: MAT_RIPPLE_GLOBAL_OPTIONS, useExisting: RippleService},
+  { provide: MAT_RIPPLE_GLOBAL_OPTIONS, useExisting: RippleService },
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
@@ -109,17 +109,39 @@ export const NB_CORE_PROVIDERS = [
   ...NbAuthModule.forRoot({
 
     strategies: [
-      NbDummyAuthStrategy.setup({
+      NbPasswordAuthStrategy.setup({
         name: 'email',
-        delay: 3000,
+        baseEndpoint: 'localhost:3000',
+        login: {
+          endpoint: '/auth/login',
+        },
+        register: {
+          endpoint: '/users/create',
+        },
+
       }),
     ],
     forms: {
       login: {
-        socialLinks: socialLinks,
+        // socialLinks: socialLinks,
       },
       register: {
-        socialLinks: socialLinks,
+        // socialLinks: socialLinks,
+      },
+      validation: {
+        password: {
+          required: true,
+          minLength: 5,
+          maxLength: 50,
+        },
+        email: {
+          required: true,
+        },
+        fullName: {
+          required: true,
+          minLength: 5,
+          maxLength: 50,
+        },
       },
     },
   }).providers,
