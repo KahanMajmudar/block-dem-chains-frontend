@@ -6,6 +6,8 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { RippleService } from '../../../@core/utils/ripple.service';
+import { AuthService } from '../../../auth/shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -58,6 +60,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
     private rippleService: RippleService,
+    private authService: AuthService,
+    private router: Router
   ) {
     this.materialTheme$ = this.themeService.onThemeChange()
       .pipe(map(theme => {
@@ -72,6 +76,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userService.getUsers()
       .pipe(takeUntil(this.destroy$))
       .subscribe((users: any) => this.user = users.nick);
+
+    this.menuService.onItemClick()
+    .subscribe((event) => {
+      if(event.item.title === "Log out")
+      {
+        this.authService.logout();
+        this.router.navigate(['/auth/login']);
+      }
+    })
 
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()

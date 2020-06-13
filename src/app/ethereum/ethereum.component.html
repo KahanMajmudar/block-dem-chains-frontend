@@ -1,0 +1,32 @@
+<nb-layout>
+    <nb-layout-column>
+        <nb-card>
+            <nb-card-body>
+
+                <div class="row" style="justify-content: center;">
+                    <img src="assets/images/bdc-logo.jpg" />
+                </div>
+
+                <div class="row" style="justify-content: center;">
+                    <h1 id="title" class="title">Create Wallet</h1>
+                </div>
+
+                <div class="row" style="justify-content: center;">
+                    <p class="sub-title">Install the MetaMask plugin and create your wallet to continue.</p>
+                </div>
+
+                <div class="row" style="justify-content: center;">
+                    <button nbButton status="primary" (click)="downloadMetamask()"><nb-icon icon="download-outline"></nb-icon></button>
+                </div>
+
+                <div class="row" style="justify-content: center;" id="logo-container">
+                </div>
+
+                <button (click)="verifyMetamask()" style="float: right;" nbButton status="success" size="large">
+                    Continue
+                </button>
+
+            </nb-card-body>
+        </nb-card>
+    </nb-layout-column>
+</nb-layout>

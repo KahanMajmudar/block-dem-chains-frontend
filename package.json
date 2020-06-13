@@ -59,6 +59,7 @@
     "intl": "1.2.5",
     "ionicons": "2.0.1",
     "leaflet": "1.2.0",
+    "metamask-logo": "^2.2.1",
     "nebular-icons": "1.1.0",
     "ng2-ckeditor": "^1.2.2",
     "ng2-smart-table": "^1.6.0",
@@ -75,6 +76,7 @@
     "tslib": "^1.10.0",
     "typeface-exo": "0.0.22",
     "web-animations-js": "^2.3.2",
+    "web3": "^1.2.9",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

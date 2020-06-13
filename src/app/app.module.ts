@@ -20,9 +20,11 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { EthereumModule } from './ethereum/ethereum.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -38,7 +40,8 @@ import {
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
-    ThemeModule.forRoot() 
+    ThemeModule.forRoot(),
+    EthereumModule 
   ],
   bootstrap: [AppComponent],
 })

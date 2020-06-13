@@ -36,6 +36,16 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
 
     ngOnInit(): void {
         this.toastrService.show('Please login to continue.', 'Welcome to Block Dem Chains!', {status: "primary", limit: 1} );
+        this.checkExistingCredentials();
+    }
+
+    checkExistingCredentials()
+    {
+        var email = localStorage.getItem('email');
+        if(email)
+        {
+            this.user.email = email;
+        }
     }
 
     login()
@@ -47,12 +57,16 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
 
         this.authService.login(existingUserObject)
         .subscribe((response:Response) => {
-            console.log(response);
             if(response.body['loginStatus'] === true)
             {
                 localStorage.setItem('x-auth-token', response.headers.get('x-auth-token'));
                 this.toastrService.success('Let\'s Block some chains!', 'Logged in successfully!', {status: "success", limit: 1} );
-                this.router.navigate(['/pages']);
+                this.router.navigate(['/verify']);
+
+                if(this.user.rememberMe === true)
+                {
+                    localStorage.setItem('email', this.user.email);
+                }        
                 return;
             }
         }, (error:any) => {

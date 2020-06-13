@@ -26,6 +26,12 @@ export class AuthService {
     return !!localStorage.getItem('x-auth-token');
   }
 
+  logout()
+  {
+    localStorage.removeItem('x-auth-token');
+    localStorage.removeItem('metamask-verified');
+  }
+
   errorHandler(error: HttpErrorResponse)
   {
     return observableThrowError(error.message || "Server Error");

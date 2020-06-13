@@ -10,9 +10,10 @@
     >
       <nb-icon [icon]="(materialTheme$ | async) ? 'menu-outline' : 'menu-2-outline'"></nb-icon>
     </a>
-    <a class="logo" href="#" (click)="navigateHome()">ngx-<span>admin</span></a>
+    <a class="logo" href="#" (click)="navigateHome()">Block Dem Chains</a>
+    <img style="width: 29px; height: 29px;" src="../../../../assets/images/bdc-logo.jpg" alt="">
   </div>
-  <nb-select
+  <nb-select style="margin-left: 700px;"
     status="primary"
     matRipple
     [selected]="currentTheme"
