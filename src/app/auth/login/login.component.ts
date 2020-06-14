@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { NbLoginComponent, NbAuthService, NbAuthSocialLink, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { ChangeDetectorRef, Inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -14,16 +14,16 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
     redirectDelay: number = 0;
     showMessages: any = {};
     strategy: string = '';
-  
+
     errors: string[] = [];
     messages: string[] = [];
     user: any = {};
     submitted: boolean = false;
     socialLinks: NbAuthSocialLink[] = [];
     rememberMe = false;
-  
-    constructor(protected service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {}, protected cd: ChangeDetectorRef, 
-    protected router: Router, protected authService: AuthService, private toastrService: NbToastrService) {
+
+    constructor(protected service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {}, protected cd: ChangeDetectorRef,
+    protected router: Router, protected authService: AuthService, private toastrService: NbToastrService, private zone: NgZone) {
 
         super(service, options, cd, router);
 
@@ -61,16 +61,18 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
             {
                 localStorage.setItem('x-auth-token', response.headers.get('x-auth-token'));
                 this.toastrService.success('Let\'s Block some chains!', 'Logged in successfully!', {status: "success", limit: 1} );
-                this.router.navigate(['/verify']);
+                this.zone.run(()=>{
+                    this.router.navigate(['/verify']);
+                })
 
                 if(this.user.rememberMe === true)
                 {
                     localStorage.setItem('email', this.user.email);
-                }        
+                }
                 return;
             }
         }, (error:any) => {
-           console.log(error); 
+           console.log(error);
            this.toastrService.danger('Login failed!', 'Please verify credentials!', {status: "danger", limit: 3} );
         });
     }
