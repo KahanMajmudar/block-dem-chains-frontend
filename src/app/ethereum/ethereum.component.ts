@@ -3,12 +3,31 @@ import { EthService } from './shared/eth.service';
 import { Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 var ModelViewer = require('metamask-logo')
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'ngx-app',
   templateUrl: './ethereum.component.html',
 })
 export class EthereumComponent implements OnInit, OnDestroy {
+
+  @HostListener('window:focus', ['$event'])
+  onFocus(event: FocusEvent): void {
+    this.ethService.getAccounts()
+    .subscribe((data: any) => {
+      console.log(data);
+      if(data.length === 0)
+      {
+        return;
+      }
+      this.accountIDs = data;
+      localStorage.setItem('account-id', this.accountIDs[0]);
+      localStorage.setItem('metamask-verified', 'true');
+    }, (error:any) => {
+      console.log(error);
+    });
+    return;
+  }
 
   constructor(private ethService: EthService, protected router: Router, private toastrService: NbToastrService, private zone: NgZone) {
     this.viewer = ModelViewer({
@@ -54,12 +73,15 @@ export class EthereumComponent implements OnInit, OnDestroy {
   verifyMetamask() {
     this.ethService.getAccounts()
       .subscribe((data: any) => {
+        console.log(data);
         if(data.length === 0)
         {
           this.toastrService.info('Make sure to give access to this site under Settings -> Connections', 'Info', {status: "danger", limit: 1, duration: 8000} );
           this.toastrService.danger('Please configure MetaMask account first!', 'Oops!', {status: "danger", limit: 3, duration: 5000} );
           return;
         }
+        this.accountIDs = data;
+        localStorage.setItem('account-id', this.accountIDs[0]);
         localStorage.setItem('metamask-verified', 'true');
         this.toastrService.success('Let\'s Block some chains!', 'Wallet configured!', {status: "success", limit: 1} );
         this.zone.run(()=>{
