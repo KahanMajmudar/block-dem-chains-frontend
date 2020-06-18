@@ -9,16 +9,21 @@ import {
   NbSelectModule,
   NbListModule,
   NbIconModule,
+  NbInputModule,
+  NbLayoutModule,
 } from '@nebular/theme';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 import { ThemeModule } from '../../@theme/theme.module';
 import { DashboardComponent } from './dashboard.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PostComponent } from './post/post.component';
+import { CommonModule } from '@angular/common';
+import { CreatePostComponent } from './create-post/create-post.component';
+import { DragDropDirective } from './create-post/drag-drop-directive';
 
 @NgModule({
   imports: [
+    CommonModule,
     FormsModule,
     ThemeModule,
     NbCardModule,
@@ -30,12 +35,16 @@ import { PostComponent } from './post/post.component';
     NbSelectModule,
     NbListModule,
     NbIconModule,
-    NbButtonModule,
-    NgxEchartsModule,
+    NbInputModule,
+    NbLayoutModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     DashboardComponent,
-    PostComponent
+    PostComponent,
+    CreatePostComponent,
+    DragDropDirective
   ],
 })
 export class DashboardModule { }

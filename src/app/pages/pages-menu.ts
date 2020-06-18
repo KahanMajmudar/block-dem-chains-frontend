@@ -6,10 +6,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'home-outline',
     link: '/pages/dashboard',
   },
-  // {
-  //   title: 'FEATURES',
-  //   group: true,
-  // },
+  {
+    title: 'POST',
+    group: true,
+  },
+  {
+    title: 'Create',
+    icon: 'plus-circle-outline',
+    children: [
+      {
+        title: 'New post',
+        link: '/pages/post/create',
+      }
+    ],
+  }
   // {
   //   title: 'Layout',
   //   icon: 'layout-outline',

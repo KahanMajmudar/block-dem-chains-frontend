@@ -31,6 +31,7 @@ export class AuthService {
     localStorage.removeItem('x-auth-token');
     localStorage.removeItem('metamask-verified');
     localStorage.removeItem('account-id');
+    localStorage.removeItem('user-name');
   }
 
   errorHandler(error: HttpErrorResponse)

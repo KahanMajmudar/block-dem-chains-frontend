@@ -39,6 +39,11 @@ export class EthService {
     }
   }
 
+  getWeb3Object()
+  {
+    return this.web3;
+  }
+
   metamaskVerified()
   {
     return !!localStorage.getItem('metamask-verified');

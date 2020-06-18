@@ -24,7 +24,7 @@
                     </div>    
                 </ng-template>
 
-                <div class="row" style="justify-content: center;"  *ngIf="accountIDs">
+                <div class="row" style="justify-content: center;"  *ngIf="!accountIDs">
                     <button nbButton status="primary" (click)="downloadMetamask()"><nb-icon icon="download-outline"></nb-icon></button>
                 </div>
 

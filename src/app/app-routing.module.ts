@@ -21,7 +21,7 @@ export const routes: Routes = [
     loadChildren: './auth/auth.module#NgxAuthModule',
   },
   {
-    path: '**', redirectTo: '/auth/login', pathMatch: 'full'
+    path: '**', redirectTo: '/pages', pathMatch: 'full'
   }
 ];
 
