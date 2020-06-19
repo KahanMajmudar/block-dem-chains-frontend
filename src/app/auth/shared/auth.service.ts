@@ -23,14 +23,14 @@ export class AuthService {
 
   loggedIn()
   {
-    return !!localStorage.getItem('x-auth-token');
+    return !!sessionStorage.getItem('x-auth-token');
   }
 
   logout()
   {
-    localStorage.removeItem('x-auth-token');
-    localStorage.removeItem('metamask-verified');
-    localStorage.removeItem('account-id');
+    sessionStorage.removeItem('x-auth-token');
+    sessionStorage.removeItem('metamask-verified');
+    sessionStorage.removeItem('account-id');
     localStorage.removeItem('user-name');
   }
 

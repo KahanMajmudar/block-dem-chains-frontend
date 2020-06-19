@@ -18,8 +18,8 @@ import { LayoutService } from '../@core/utils';
     PagesComponent,
   ],
   providers: [
-    LayoutService
-  ]
+    LayoutService,
+  ],
 })
 export class PagesModule {
 }

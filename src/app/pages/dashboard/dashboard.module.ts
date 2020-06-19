@@ -11,6 +11,7 @@ import {
   NbIconModule,
   NbInputModule,
   NbLayoutModule,
+  NbSearchModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -20,6 +21,14 @@ import { PostComponent } from './post/post.component';
 import { CommonModule } from '@angular/common';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { DragDropDirective } from './create-post/drag-drop-directive';
+import { IpfsService } from '../../shared/ipfs.service';
+import { NedbService } from '../../shared/nedb.service';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { UserProfileComponent } from '../user/user-profile/user-profile.component';
+import { UserSearchResultsComponent } from '../user/user-search-results/user-search-results.component';
+import { AddUserInfoComponent } from '../user/add-user-info/add-user-info.component';
+import { UserService } from '../../shared/user.service';
+import { LoaderComponent } from '../../shared/loader/loader.component';
 
 @NgModule({
   imports: [
@@ -38,13 +47,27 @@ import { DragDropDirective } from './create-post/drag-drop-directive';
     NbInputModule,
     NbLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NbEvaIconsModule,
+    NbSearchModule,
   ],
   declarations: [
     DashboardComponent,
     PostComponent,
     CreatePostComponent,
-    DragDropDirective
+    DragDropDirective,
+    UserProfileComponent,
+    UserSearchResultsComponent,
+    AddUserInfoComponent,
+    LoaderComponent
   ],
+  providers: [
+    IpfsService,
+    NedbService,
+    UserService,
+  ],
+  entryComponents: [
+    LoaderComponent
+  ]
 })
 export class DashboardModule { }

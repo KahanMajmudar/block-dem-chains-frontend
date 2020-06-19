@@ -11,6 +11,10 @@ import { HostListener } from '@angular/core';
 })
 export class EthereumComponent implements OnInit, OnDestroy {
 
+  public viewer;
+  public container;
+  public accountIDs;
+
   @HostListener('window:focus', ['$event'])
   onFocus(event: FocusEvent): void {
     this.ethService.getAccounts()
@@ -21,8 +25,8 @@ export class EthereumComponent implements OnInit, OnDestroy {
         return;
       }
       this.accountIDs = data;
-      localStorage.setItem('account-id', this.accountIDs[0]);
-      localStorage.setItem('metamask-verified', 'true');
+      sessionStorage.setItem('account-id', this.accountIDs);
+      sessionStorage.setItem('metamask-verified', 'true');
     }, (error:any) => {
       console.log(error);
     });
@@ -44,10 +48,6 @@ export class EthereumComponent implements OnInit, OnDestroy {
       slowDrift: false,
     });
   }
-
-  public viewer;
-  public container;
-  public accountIDs;
 
   ngOnInit(): void {
     this.container = document.getElementById('logo-container')
@@ -81,11 +81,11 @@ export class EthereumComponent implements OnInit, OnDestroy {
           return;
         }
         this.accountIDs = data;
-        localStorage.setItem('account-id', this.accountIDs[0]);
-        localStorage.setItem('metamask-verified', 'true');
+        sessionStorage.setItem('account-id', this.accountIDs);
+        sessionStorage.setItem('metamask-verified', 'true');
         this.toastrService.success('Let\'s Block some chains!', 'Wallet configured!', {status: "success", limit: 1} );
         this.zone.run(()=>{
-          this.router.navigate(['/pages']);
+          this.router.navigate(['/pages/dashboard']);
         })
       }, (error:any) => {
         console.log(error);

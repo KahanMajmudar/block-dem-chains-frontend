@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreatePostComponent } from './dashboard/create-post/create-post.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { UserSearchResultsComponent } from './user/user-search-results/user-search-results.component';
+import { AddUserInfoComponent } from './user/add-user-info/add-user-info.component';
 
 const routes: Routes = [{
   path: '',
@@ -17,6 +20,18 @@ const routes: Routes = [{
       path: 'post/create',
       component: CreatePostComponent,
     },
+    {
+      path: 'profile',
+      component: UserProfileComponent
+    },
+    // {
+    //   path: 'add-user-info',
+    //   component: AddUserInfoComponent
+    // },
+    {
+      path: 'user-search',
+      component: UserSearchResultsComponent
+    },
     // {
     //   path: 'layout',
     //   loadChildren: () => import('./layout/layout.module')
@@ -25,8 +40,11 @@ const routes: Routes = [{
     {
       path: '',
       redirectTo: 'dashboard',
-      pathMatch: 'full',
     },
+    {
+      path: '**',
+      redirectTo: 'dashboard'
+    }
   ],
 }];
 

@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
-import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { RippleService } from '../../../@core/utils/ripple.service';
 import { AuthService } from '../../../auth/shared/auth.service';
 import { Router } from '@angular/router';
+import { GlobalConstants } from '../../../common/data/global-constants';
 
 @Component({
   selector: 'ngx-header',
@@ -56,7 +56,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     private themeService: NbThemeService,
-    private userService: UserData,
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
     private rippleService: RippleService,
@@ -73,9 +72,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
+    GlobalConstants.userName = localStorage.getItem('user-name');
+    this.user = {
+      name: GlobalConstants.userName.charAt(0).toUpperCase() + GlobalConstants.userName.slice(1)
+    }
 
     this.menuService.onItemClick()
     .subscribe((event) => {
@@ -83,6 +83,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       {
         this.authService.logout();
         this.router.navigate(['/auth/login']);
+      }
+      else if(event.item.title === "Profile")
+      {
+        this.router.navigate(['/pages/profile']);
       }
     })
 

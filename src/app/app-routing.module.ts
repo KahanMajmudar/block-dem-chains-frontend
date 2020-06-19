@@ -2,6 +2,7 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { EthGuard } from './ethereum/shared/eth.guard';
+import { AddUserInfoComponent } from './pages/user/add-user-info/add-user-info.component';
 
 export const routes: Routes = [
   {

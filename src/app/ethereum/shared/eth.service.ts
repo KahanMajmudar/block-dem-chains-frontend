@@ -46,6 +46,6 @@ export class EthService {
 
   metamaskVerified()
   {
-    return !!localStorage.getItem('metamask-verified');
+    return !!sessionStorage.getItem('metamask-verified');
   }
 }

@@ -1,5 +1,21 @@
-<div class="row">
-  <div class="col-md-12 ">
-    <ngx-post></ngx-post>
+<ng-container *ngIf="dataIsReady; else spinner">
+  <div class="row">
+    <div class="col-md-12 ">
+        <h1 class="text-body text-center">No posts to show!</h1>
+        <h3 class="text-hint text-center">Follow a user by searching...</h3>
+        <div class="row" style="justify-content: center; margin-top: 35px;">
+          <nb-icon (click)="searchUser()" style="font-size: 100px;" class="text-hint" icon="person-add-outline"></nb-icon>
+        </div>
+    </div>
   </div>
-</div>
+</ng-container>
+<ng-template #spinner>
+    <div id="nb-global-spinner" class="spinner">
+      <div class="blob blob-0"></div>
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="blob blob-4"></div>
+      <div class="blob blob-5"></div>
+    </div>
+</ng-template>

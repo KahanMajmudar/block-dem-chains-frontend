@@ -60,7 +60,7 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
             console.log(response);
             if(response.body['loginStatus'] === true)
             {
-                localStorage.setItem('x-auth-token', response.headers.get('x-auth-token'));
+                sessionStorage.setItem('x-auth-token', response.headers.get('x-auth-token'));
                 localStorage.setItem('user-name', response.body['name']);
                 this.toastrService.success('Let\'s Block some chains!', 'Logged in successfully!', {status: "success", limit: 1} );
                 this.zone.run(()=>{

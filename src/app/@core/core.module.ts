@@ -7,10 +7,8 @@ import { of as observableOf } from 'rxjs';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
 
-import { UserData } from './data/users';
 import { SecurityCamerasData } from './data/security-cameras';
 
-import { UserService } from './mock/users.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { RippleService } from './utils/ripple.service';
 
@@ -33,7 +31,6 @@ const socialLinks = [
 ];
 
 const DATA_SERVICES = [
-  { provide: UserData, useClass: UserService },
   { provide: SecurityCamerasData, useClass: SecurityCamerasService },
   { provide: MAT_RIPPLE_GLOBAL_OPTIONS, useExisting: RippleService },
 ];
