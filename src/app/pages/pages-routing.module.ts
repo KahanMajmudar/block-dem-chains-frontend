@@ -7,6 +7,7 @@ import { CreatePostComponent } from './dashboard/create-post/create-post.compone
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { UserSearchResultsComponent } from './user/user-search-results/user-search-results.component';
 import { AddUserInfoComponent } from './user/add-user-info/add-user-info.component';
+import { TransactionComponent } from '../shared/transaction/transaction.component';
 
 const routes: Routes = [{
   path: '',
@@ -24,10 +25,10 @@ const routes: Routes = [{
       path: 'profile',
       component: UserProfileComponent
     },
-    // {
-    //   path: 'add-user-info',
-    //   component: AddUserInfoComponent
-    // },
+    {
+      path: 'transactions',
+      component: TransactionComponent
+    },
     {
       path: 'user-search',
       component: UserSearchResultsComponent

@@ -29,6 +29,7 @@ import { UserSearchResultsComponent } from '../user/user-search-results/user-sea
 import { AddUserInfoComponent } from '../user/add-user-info/add-user-info.component';
 import { UserService } from '../../shared/user.service';
 import { LoaderComponent } from '../../shared/loader/loader.component';
+import { TransactionComponent } from '../../shared/transaction/transaction.component';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { LoaderComponent } from '../../shared/loader/loader.component';
     UserProfileComponent,
     UserSearchResultsComponent,
     AddUserInfoComponent,
-    LoaderComponent
+    LoaderComponent,
+    TransactionComponent,
   ],
   providers: [
     IpfsService,

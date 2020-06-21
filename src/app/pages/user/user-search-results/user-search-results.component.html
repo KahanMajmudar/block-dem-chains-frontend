@@ -1,1 +1,30 @@
-<p>user-search-results works!</p>
+<nb-card size="small">
+    <nb-card-header class="text-center">User {{userDetails.name}} found!</nb-card-header>
+    <nb-card-body>
+
+        <nb-card>
+            <nb-card-header>
+                <nb-user size="tiny" [(name)]="userDetails.name"></nb-user>
+            </nb-card-header>
+            <nb-card-body>
+
+                <div class="text-basic text-center">
+                    {{userDetails.bio}}
+                </div>
+
+            </nb-card-body>
+            <nb-card-footer>
+                <div style="float: left;" class="text-hint">
+                    User ID: {{ID}}
+                </div>
+            </nb-card-footer>
+        </nb-card>
+
+    </nb-card-body>
+
+    <nb-card-footer>
+        <div class="row" style="justify-content: center;">
+            <button nbButton ghost (click)="followUser()" class="text-hint">Follow</button>
+        </div>
+    </nb-card-footer>
+</nb-card>

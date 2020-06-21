@@ -21,8 +21,6 @@ import {
   NbWindowModule,
 } from '@nebular/theme';
 import { EthereumModule } from './ethereum/ethereum.module';
-import { AddUserInfoComponent } from './pages/user/add-user-info/add-user-info.component';
-import { LoaderComponent } from './shared/loader/loader.component';
 
 @NgModule({
   declarations: [

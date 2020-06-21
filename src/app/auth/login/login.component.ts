@@ -75,6 +75,7 @@ export class NgxLoginComponent extends NbLoginComponent implements OnInit {
             }
         }, (error:any) => {
            console.log(error);
+           this.toastrService.show('Note!', 'Make sure to verify your email address via link sent to your email!', {status: "danger", limit: 3, duration: 7000} );
            this.toastrService.danger('Login failed!', 'Please verify credentials!', {status: "danger", limit: 3} );
         });
     }

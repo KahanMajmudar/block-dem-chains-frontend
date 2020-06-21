@@ -15,10 +15,15 @@ export class IpfsService {
 
   async createNode()
   {
-    GlobalConstants.node = await Ipfs.create({ repo: 'ipfs-' + Math.random() });
+    // GlobalConstants.node = await Ipfs.create({ repo: 'ipfs-' + Math.random() });
+    GlobalConstants.node = await Ipfs.create();
     GlobalConstants.nodeStatus = await GlobalConstants.node.files.stat('/');
     const status = GlobalConstants.node.isOnline() ? true : false;
     return status;
+  }
+
+  addPost(postObj): Observable<any> {
+    return (this.http.post<any>(GlobalConstants.addPostURL, postObj).pipe(catchError(this.errorHandler)));
   }
 
   errorHandler(error: HttpErrorResponse)

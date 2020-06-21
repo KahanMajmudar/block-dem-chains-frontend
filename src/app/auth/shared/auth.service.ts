@@ -31,6 +31,7 @@ export class AuthService {
     sessionStorage.removeItem('x-auth-token');
     sessionStorage.removeItem('metamask-verified');
     sessionStorage.removeItem('account-id');
+    localStorage.removeItem('user-bio');
     localStorage.removeItem('user-name');
   }
 

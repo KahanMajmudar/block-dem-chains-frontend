@@ -23,8 +23,26 @@
         </nb-card-body>
         <nb-card-footer>
             <div class="text-hint text-right">
-                Following: blabidabladibla
+                Following: {{numOfUsersFollowed}}
             </div>
         </nb-card-footer>
+    </nb-card>
+
+    <nb-card>
+        <nb-card-header>
+            <div class="text-center text-body">
+                Users following
+            </div>
+        </nb-card-header>
+        <nb-card-body>
+            <div *ngIf="numOfUsersFollowed != 0">
+                <nb-list>
+                    <nb-list-item *ngFor="let user of usersFollowed">
+                      <nb-user [name]="user.userName" [title]="user.userID">
+                      </nb-user>
+                    </nb-list-item>
+                  </nb-list>
+            </div>
+        </nb-card-body>
     </nb-card>
 </div>

@@ -1,0 +1,20 @@
+<nb-list>
+    <nb-list-item  style="justify-content: center;" *ngFor="let tx of transactions; let i=index">
+        <nb-card>
+            <nb-card-header>
+                <div class="text-center text-body">
+                    Transacation {{i+1}}
+                </div>
+            </nb-card-header>
+            <nb-card-body>
+                <div class="text-center text-hint">
+                    Transaction hash: <span class="text-body">{{tx.transactionHash}}</span>
+                </div>
+                <hr>
+                <div class="text-center text-hint">
+                    Gas used: <span class="text-body">{{tx.gasUsed}}</span>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </nb-list-item>
+</nb-list>
