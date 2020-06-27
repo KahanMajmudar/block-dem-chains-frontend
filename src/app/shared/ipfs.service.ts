@@ -28,6 +28,6 @@ export class IpfsService {
 
   errorHandler(error: HttpErrorResponse)
   {
-    return observableThrowError(error.message || "Server Error");
+    return observableThrowError(error || "Server Error");
   }
 }

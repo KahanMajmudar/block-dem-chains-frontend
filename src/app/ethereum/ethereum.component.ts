@@ -22,6 +22,9 @@ export class EthereumComponent implements OnInit, OnDestroy {
       console.log(data);
       if(data.length === 0)
       {
+        this.accountIDs = null;
+        sessionStorage.removeItem('account-id');
+        sessionStorage.removeItem('metamask-verified');
         return;
       }
       this.accountIDs = data;

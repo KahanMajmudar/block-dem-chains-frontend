@@ -1,13 +1,48 @@
-<ng-container *ngIf="dataIsReady; else elseTemplate">
+<ng-container *ngIf="dataIsReady && usersFollowed; else elseTemplate">
   <div class="row">
     <div class="col-md-12 ">
-      <h1 class="text-body text-center">Imma render dem posts</h1>
+
+      <nb-card>
+        <nb-card-body>
+          <nb-list>
+            <nb-list-item *ngFor="let post of posts">
+              <nb-card style="flex: auto;">
+                <nb-card-header>
+                  <div>
+                    <h5 class="text-basic text-center">{{post.title}}</h5>
+                    <div class="row">
+                      <p class="text-hint text-left">Click on icon to view on IPFS</p>
+                      <p style="margin-left: auto;" class="text-hint text-right">Posted under: <span class="text-basic">{{post.tag}}</span></p>  
+                    </div>
+                  </div>
+                </nb-card-header>
+                <nb-card-body>
+                  <div class="row" style="justify-content: center;">
+                    <img style="width: 150px;" class="text-center" (click)="goToIPFSLink(post.hash)" src="../../../assets/images/file-icons/{{post.dataType}}.png" alt="File-Icon">
+                    <!-- <div class="row" style="margin-top: 10px; margin-left: 20px;">
+                      <h6 class="text-basic">Open link: <a href="https://ipfs.io/ipfs/{{post.hash}}">{{post.title}}</a></h6>
+                    </div> -->
+                  </div>
+                </nb-card-body>
+                <nb-card-footer>
+                  <h6 class="text-hint text-right">Post added on: {{post.creationTime*1000 | date: "medium"}}</h6>
+                </nb-card-footer>
+              </nb-card>
+            </nb-list-item>
+          </nb-list>
+
+        </nb-card-body>
+      </nb-card>
+
     </div>
   </div>
 </ng-container>
+
 <ng-template #elseTemplate>
   <div class="row">
     <div class="col-md-12 ">
+      <h3 *ngIf="!bioAdded" class="text-hint text-center">Add your bio in the profile section to complete your
+        registration.</h3>
       <h1 class="text-body text-center">No posts to show!</h1>
       <h3 class="text-hint text-center">Follow a user by searching...</h3>
       <div class="row" style="justify-content: center; margin-top: 35px;">

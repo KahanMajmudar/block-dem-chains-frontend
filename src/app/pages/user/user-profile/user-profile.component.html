@@ -10,12 +10,13 @@
             <ng-container *ngIf="userBio; else noUserBio">
                 <div class="text-basic text-center">
                     {{userBio}}
-                </div>    
+                </div>
             </ng-container>
             <ng-template #noUserBio>
                 <h4 class="text-hint text-center">Click to add your bio</h4>
                 <div class="row" style="justify-content: center; margin-top: 35px;">
-                    <nb-icon (click)="openDialog()" style="font-size: 100px;" class="text-hint" icon="plus-circle-outline">
+                    <nb-icon (click)="openDialog()" style="font-size: 100px;" class="text-hint"
+                        icon="plus-circle-outline">
                     </nb-icon>
                 </div>
             </ng-template>
@@ -35,14 +36,19 @@
             </div>
         </nb-card-header>
         <nb-card-body>
-            <div *ngIf="numOfUsersFollowed != 0">
+            <ng-container *ngIf="numOfUsersFollowed != 0; else usersFollowedNotZero">
                 <nb-list>
                     <nb-list-item *ngFor="let user of usersFollowed">
-                      <nb-user [name]="user.userName" [title]="user.userID">
-                      </nb-user>
+                        <nb-user [name]="user.userName" [title]="user.userID">
+                        </nb-user>
+                        <button style="margin-left: auto;" (click)="unfollowUser(user.userID)" nbButton>Unfollow</button>
                     </nb-list-item>
-                  </nb-list>
-            </div>
+                </nb-list>                
+            </ng-container>
+            <ng-template #usersFollowedNotZero>
+                <h4 class="text-hint text-center">Follow a user by clickling the search button...</h4>
+            </ng-template>
+            
         </nb-card-body>
     </nb-card>
 </div>

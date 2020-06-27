@@ -34,7 +34,7 @@
             <div class="form-group row">
                 <label class="label col-md-3 col-form-label" for="input-postTitle">Post Title</label>
                 <input type="text" formControlName="postTitle" nbInput fullWidth fieldSize="large" shape="round"
-                    placeholder="Post Title"
+                    placeholder="Brief title for your post"
                     [status]="postForm.dirty && postForm.controls.postTitle.touched ? (postForm.controls.postTitle.invalid  ? 'danger' : 'success') : 'basic'"
                     [attr.aria-invalid]="postForm.controls.postTitle.invalid && postForm.controls.postTitle.touched ? true : null">
             </div>
@@ -47,7 +47,7 @@
             <div class="form-group row" style="margin-top: 30px;">
                 <label class="label" for="input-postTag">Tag</label>
                 <input type="text" formControlName="postTag" nbInput fullWidth fieldSize="large" shape="round"
-                    placeholder="Post Tag"
+                    placeholder="Category of post (Eg. Machine Learning, AI etc.)"
                     [status]="postForm.dirty && postForm.controls.postTag.touched ? (postForm.controls.postTag.invalid  ? 'danger' : 'success') : 'basic'">
             </div>
             <ng-container *ngIf="postForm.controls.postTag.invalid && postForm.controls.postTag.touched">

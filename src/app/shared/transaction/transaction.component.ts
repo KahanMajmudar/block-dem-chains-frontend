@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'ngx-transaction',
@@ -8,18 +9,21 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TransactionComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private userService: UserService) { }
 
   public transactions = [];
 
   ngOnInit(): void {
-    this.loadTransactionsFromLocalStorage();
+    this.getTransactions();
   }
 
-  loadTransactionsFromLocalStorage() {
-    var txString = localStorage.getItem('transactions');
-    this.transactions.push(JSON.parse(txString));
-    console.log(this.transactions);
+  getTransactions() {
+    var addressObj = { address: sessionStorage.getItem('account-id') };
+    console.log(addressObj);
+    this.userService.viewTransactions(addressObj)
+    .subscribe((data:any) => {
+      console.log(data);
+    })
   }
 
 }

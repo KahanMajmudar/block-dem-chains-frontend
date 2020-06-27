@@ -31,7 +31,8 @@ export class UserSearchResultsComponent implements OnInit {
         "userName": this.userDetails.name,
         "userBio": this.userDetails.bio
       });
-      this.toastrService.success('Success!', 'Followed '+ this.userDetails.name + ' successfully!', { status: "danger", limit: 3, duration: 3500 });
+      this.toastrService.show('Info', 'Reload/Go to profile page to see followed users.', { status: "danger", limit: 3, duration: 8000 });
+      this.toastrService.success('Success!', 'Followed '+ this.userDetails.name + ' successfully!', { status: "danger", limit: 3, duration: 8000 });
       this.nedbService.updateNumOfFollowers();
     }
     catch(err) {

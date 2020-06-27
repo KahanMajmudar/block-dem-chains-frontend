@@ -14,12 +14,12 @@ import { Router } from '@angular/router';
 export class UserProfileComponent implements OnInit {
 
   constructor(private dialogService: NbDialogService, private userService: UserService, private toastrService: NbToastrService,
-    private nedbService: NedbService) { }
+    private dbService: NedbService) { }
 
   public userName;
   public loading = false;
   public userBio;
-  public numOfUsersFollowed;
+  public numOfUsersFollowed = 0;
   public usersFollowed;
 
   ngOnInit(): void {
@@ -28,48 +28,54 @@ export class UserProfileComponent implements OnInit {
     this.checkUsersFollowed();
   }
 
-  getUserDetails() {
+  async getUserDetails() {
     // TODO: Update logic for user bio shit
-    var tempUserName = localStorage.getItem('user-name');
-    this.userName = tempUserName.charAt(0).toUpperCase() + tempUserName.slice(1);
-    this.userBio = localStorage.getItem('user-bio');
-    this.numOfUsersFollowed = GlobalConstants.numOfUsersFollowed;
-    console.log(this.numOfUsersFollowed);
-    if (!this.userBio) {
-      var addressObj = {
-        address: sessionStorage.getItem('account-id')
-      }
-      this.loading = true;
-      this.userService.viewUserInfo(addressObj)
-        .subscribe((data: any) => {
-          console.log(data);
-          if (!data.isUser) {
-            this.toastrService.info('Let\'s add a few words to your profile!', 'Hey ' + this.userName + '!', { status: "danger", limit: 3 });
-            this.loading = false;
-            return;
-          }
-          this.userBio = data.bio;
-          localStorage.setItem('user-bio', this.userBio);
-          this.loading = false;
-        }, (error: any) => {
-          this.loading = false;
-          this.toastrService.danger('Getting info failed!', 'An unexpected error occurred!', { status: "danger", limit: 3 });
-          console.log(error);
-        })
+    if (!GlobalConstants.userDb) {
+      const loadDataStore = await this.dbService.createDatastore();
+      const updateDemFollowers = await this.dbService.updateNumOfFollowers();
     }
+    this.numOfUsersFollowed = GlobalConstants.numOfUsersFollowed == undefined ? 0 : GlobalConstants.numOfUsersFollowed;
+    var addressObj = { address: sessionStorage.getItem('account-id') };
+    this.userService.viewUserInfo(addressObj)
+      .subscribe((data: any) => {
+        console.log(data);
+        if (!data.isUser) {
+          this.toastrService.info('Let\'s add a few words to your profile!', 'Hey!', { status: "danger", limit: 3 });
+          this.loading = false;
+          return;
+        }
+        this.userBio = data.bio;
+        this.userName = data.name;
+      }, (error: any) => {
+        this.loading = false;
+        this.toastrService.danger('Getting info failed!', 'An unexpected error occurred!', { status: "danger", limit: 3 });
+        console.log(error);
+      })
+
+    // var tempUserName = localStorage.getItem('user-name');
+    // this.userName = tempUserName.charAt(0).toUpperCase() + tempUserName.slice(1);
+
   }
 
   openDialog() {
-    this.dialogService.open(AddUserInfoComponent);
+    this.dialogService.open(AddUserInfoComponent)
+    .onClose.subscribe((data:any)=>{
+      var addressObj = { address: sessionStorage.getItem('account-id') };
+      this.userService.viewUserInfo(addressObj)
+      .subscribe((data: any) => {
+        this.userBio = data.bio;
+        this.userName = data.name;
+      });
+    })
   }
 
   async checkUsersFollowed() {
     var self = this;
-    if (GlobalConstants.numOfUsersFollowed === 0)
+    if (GlobalConstants.numOfUsersFollowed === 0 || GlobalConstants.numOfUsersFollowed == undefined)
       return;
-    if (!GlobalConstants.node){
-      var loadDataStore = await this.nedbService.createDatastore();
-      var updateDemFollowers = await this.nedbService.updateNumOfFollowers();
+    if (!GlobalConstants.node) {
+      var loadDataStore = await this.dbService.createDatastore();
+      var updateDemFollowers = await this.dbService.updateNumOfFollowers();
       this.numOfUsersFollowed = GlobalConstants.numOfUsersFollowed;
     }
 
@@ -84,5 +90,22 @@ export class UserProfileComponent implements OnInit {
   async getUsersFollowed(rows) {
     console.log(rows);
     this.usersFollowed = rows;
+  }
+
+  async unfollowUser(userID)
+  {
+    var self = this;
+    if (!GlobalConstants.userDb) {
+      const loadDataStore = await this.dbService.createDatastore();
+      const updateDemFollowers = await this.dbService.updateNumOfFollowers();
+    }
+    const unfollowUser = await GlobalConstants.userDb.remove({ userID: userID }, async function (err, count) {
+      if(err)
+        console.log(err);
+      else{
+        const updateDemFollowers = await this.dbService.updateNumOfFollowers();
+        self.checkUsersFollowed();
+      }
+    });
   }
 }

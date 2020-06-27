@@ -19,6 +19,14 @@ export class UserService {
     return (this.http.post<any>(GlobalConstants.addUserInfoURL, userObj).pipe(catchError(this.errorHandler)));
   }
 
+  getUserPosts(addressObj): Observable<any> {
+    return (this.http.post<any>(GlobalConstants.getPostsURL, addressObj).pipe(catchError(this.errorHandler)));
+  }
+
+  viewTransactions(addressObj): Observable<any> {
+    return (this.http.post<any>(GlobalConstants.viewTransactionsURL, addressObj).pipe(catchError(this.errorHandler)));
+  }
+
   errorHandler(error: HttpErrorResponse)
   {
     return observableThrowError(error.message || "Server Error");

@@ -46,7 +46,6 @@ export class NedbService {
       if(err)
         console.log(err);
       else{
-        console.log('Following count increased by 1');
         self.setRowCountToNumOfFollowers(count);
       }
     });
@@ -54,6 +53,7 @@ export class NedbService {
 
   setRowCountToNumOfFollowers(count)
   {
+    console.log('Setting followed to ' + count);
     GlobalConstants.numOfUsersFollowed = count;
   }
 }

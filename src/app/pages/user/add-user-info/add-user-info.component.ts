@@ -47,29 +47,17 @@ export class AddUserInfoComponent implements OnInit {
       .subscribe((data: any) => {
         console.log(data);
 
-        if (localStorage.getItem('transactions')) {
-          var txString = localStorage.getItem('transactions');
-          var txObj = JSON.parse(txString);
-          var arrayOfTx = [];
-          arrayOfTx.push(txObj);
-          arrayOfTx.push(data);
-          localStorage.setItem('transactions', JSON.stringify(arrayOfTx));
-        }
-        else {
-          localStorage.setItem('transactions', JSON.stringify(data));
-        }
-
         localStorage.setItem('user-bio', this.userForm.value.userBio);
 
         this.toastrService.success('Bio added successfully!', 'Awesome bio you got there!', { status: "danger", limit: 3 });
-        this.toastrService.info('Info', 'You can visit view transactions to show all transactions...', { status: "danger", limit: 3, duration: 6000 });
+        this.toastrService.show('Info', 'You can visit view transactions to show all transactions...', { status: "danger", limit: 3, duration: 6000 });
 
       }, (error: any) => {
         console.log(error);
         this.toastrService.danger('Submit failed!', 'An unexpected error occurred!', { status: "danger", limit: 3 });
       })
 
-    this.dialogRef.close();
+    this.dialogRef.close(true);
     this.loading = false;
 
   }

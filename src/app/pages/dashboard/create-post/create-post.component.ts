@@ -85,6 +85,10 @@ export class CreatePostComponent implements OnInit {
     this.ipfsService.addPost(addPostObj)
     .subscribe((data:any) => {
       console.log(data);
+      this.toastrService.success('Success!', 'Post added successfully!', { status: "danger", limit: 3, duration: 3500 });
+    }, (error:any) => {
+      this.toastrService.show('Info!', 'Allowed files: pdf, jpg, jpeg, png, txt, img, ico, raw, csv, xlsx, docx', { status: "primary", limit: 3, duration: 10000 });
+      this.toastrService.danger('Upload failed!', error.error.msg, { status: "danger", limit: 3, duration: 10000 });
     })
 
     this.uploadingFlag = false;

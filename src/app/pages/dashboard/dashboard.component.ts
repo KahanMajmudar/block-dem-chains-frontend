@@ -18,7 +18,10 @@ export class DashboardComponent implements OnInit {
   public accountIDs;
   public posts;
   public dataIsReady = false;
+  public usersFollowed = false;
   public userIDToSearch;
+  public bioAdded = false;
+  
 
   @HostListener('window:focus', ['$event'])
   onFocus(event: FocusEvent): void {
@@ -27,19 +30,25 @@ export class DashboardComponent implements OnInit {
 
   // TODO: Add Angular resolver
   ngOnInit() {
+    var addressObj = { address: sessionStorage.getItem('account-id') };
+    this.userService.viewUserInfo(addressObj)
+    .subscribe((data:any) => {
+      console.log(data);
+      if(data.isUser)
+        this.bioAdded = true;
+    })
     console.log('initialising...');
-    this.initialise().then(()=>{
+    this.initialise().then(() => {
       this.dataIsReady = true;
+      this.renderPosts();
       console.log('data is ready')
     });
   }
 
-  async initialise()
-  {
+  async initialise() {
     const waitForSettingCurrentAcc = await this.setCurrentAccount();
     const loadDataStore = await this.dbService.createDatastore();
     const updateDemFollowers = await this.dbService.updateNumOfFollowers();
-    const waitForShowPostsFlag = this.renderPosts();
     const web3 = await this.ethService.getWeb3Object();
     console.log(web3);
   }
@@ -64,11 +73,34 @@ export class DashboardComponent implements OnInit {
     this.searchService.activateSearch('Search User');
   }
 
-  renderPosts()
-  {
-    if(GlobalConstants.numOfUsersFollowed > 0)
-    {
-      // TODO: Render dem posts here
+  async renderPosts() {
+    var self = this;
+    var dbFind = await GlobalConstants.userDb.find({}, function (err, docs) {
+      if (err)
+        console.log(err);
+      else
+        self.getFollowedUserPosts(docs);
+    });
+  }
+
+  getFollowedUserPosts(docs) {
+    if(docs){
+      docs.forEach(user => {
+        var addressObj = {
+          address: user.userID
+        };
+        this.userService.getUserPosts(addressObj)
+        .subscribe((data:any) => {
+          console.log(data);
+          this.posts = data;
+          this.usersFollowed = true;
+        })
+      });  
     }
+  }
+
+  goToIPFSLink(hash)
+  {
+    window.open("https://ipfs.io/ipfs/" + hash, "_blank");
   }
 }
