@@ -1,5 +1,9 @@
 # block-dem-chains-frontend
 
+<p align="center">
+  <img src="https://github.com/KahanMajmudar/block-dem-chains-frontend/blob/master/bdc-logo.jpg"/>
+</p>
+
 Devfolio's ETHIndia Online: Chain Runner
 
 ## Team Members
@@ -15,13 +19,6 @@ The purpose of the project is to make a decentralized resource sharing platform 
 ## Getting Started
 
 ### Prerequisites
-
-- Install Node
-  - macOS
-  
-    `brew install node`
-  - [Linux](https://github.com/nodesource/distributions/blob/master/README.md)
-  - [Windows](https://nodejs.org/en/#home-downloadhead)
   
 - Install [MetaMask Plugin](https://metamask.io/download.html)  :fox_face: for your Browser/Device.
   
@@ -64,9 +61,9 @@ The frontent is seamlessly connected with the Metamask Plugin :fox_face: present
 
 Each and every event from Account Creation to Creating Post is happening via Transactions :currency_exchange:. User can monitor the Transactions in `View Transactions` tab below `Profile`.
 
-### Search by Address
+### Search by Ethereum Address
 
-Currently our searching :mag: is based on the User's Metamask Hash, if a User wants to search someone, they should know the Metamask hash of the corresponding User.
+Currently our searching :mag: is based on the User's Metamask Ethereum Hash, if a User wants to search someone, they should know the Metamask hash of the corresponding User.
 
 
 
