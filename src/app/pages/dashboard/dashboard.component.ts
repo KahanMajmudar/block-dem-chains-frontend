@@ -1,103 +1,108 @@
-import {Component, OnDestroy} from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
-import { takeWhile } from 'rxjs/operators' ;
-import { SolarData } from '../../@core/data/solar';
-
-interface CardSettings {
-  title: string;
-  iconClass: string;
-  type: string;
-}
+import { Component, OnInit, HostListener } from '@angular/core';
+import { EthService } from '../../ethereum/shared/eth.service';
+import { IpfsService } from '../../shared/ipfs.service';
+import { NedbService } from '../../shared/nedb.service';
+import { NbSearchService, NbToastrService } from '@nebular/theme';
+import { UserService } from '../../shared/user.service';
+import { GlobalConstants } from '../../common/data/global-constants';
 
 @Component({
   selector: 'ngx-dashboard',
   styleUrls: ['./dashboard.component.scss'],
   templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent implements OnDestroy {
+export class DashboardComponent implements OnInit {
+  constructor(private ethService: EthService, private ipfsService: IpfsService, private dbService: NedbService,
+    private searchService: NbSearchService, private userService: UserService, private toastrService: NbToastrService) { }
 
-  private alive = true;
+  public accountIDs;
+  public posts = [];
+  public dataIsReady = false;
+  public usersFollowed = false;
+  public userIDToSearch;
+  public bioAdded = false;
+  
 
-  solarValue: number;
-  lightCard: CardSettings = {
-    title: 'Light',
-    iconClass: 'nb-lightbulb',
-    type: 'primary',
-  };
-  rollerShadesCard: CardSettings = {
-    title: 'Roller Shades',
-    iconClass: 'nb-roller-shades',
-    type: 'success',
-  };
-  wirelessAudioCard: CardSettings = {
-    title: 'Wireless Audio',
-    iconClass: 'nb-audio',
-    type: 'info',
-  };
-  coffeeMakerCard: CardSettings = {
-    title: 'Coffee Maker',
-    iconClass: 'nb-coffee-maker',
-    type: 'warning',
-  };
-
-  statusCards: string;
-
-  commonStatusCardsSet: CardSettings[] = [
-    this.lightCard,
-    this.rollerShadesCard,
-    this.wirelessAudioCard,
-    this.coffeeMakerCard,
-  ];
-
-  statusCardsByThemes: {
-    default: CardSettings[];
-    cosmic: CardSettings[];
-    corporate: CardSettings[];
-    dark: CardSettings[];
-    'material-dark': CardSettings[];
-    'material-light': CardSettings[];
-  } = {
-    default: this.commonStatusCardsSet,
-    cosmic: this.commonStatusCardsSet,
-    corporate: [
-      {
-        ...this.lightCard,
-        type: 'warning',
-      },
-      {
-        ...this.rollerShadesCard,
-        type: 'primary',
-      },
-      {
-        ...this.wirelessAudioCard,
-        type: 'danger',
-      },
-      {
-        ...this.coffeeMakerCard,
-        type: 'info',
-      },
-    ],
-    dark: this.commonStatusCardsSet,
-    'material-dark': this.commonStatusCardsSet,
-    'material-light': this.commonStatusCardsSet,
-  };
-
-  constructor(private themeService: NbThemeService,
-              private solarService: SolarData) {
-    this.themeService.getJsTheme()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe(theme => {
-        this.statusCards = this.statusCardsByThemes[theme.name];
-    });
-
-    this.solarService.getSolarData()
-      .pipe(takeWhile(() => this.alive))
-      .subscribe((data) => {
-        this.solarValue = data;
-      });
+  @HostListener('window:focus', ['$event'])
+  onFocus(event: FocusEvent): void {
+    this.setCurrentAccount();
   }
 
-  ngOnDestroy() {
-    this.alive = false;
+  // TODO: Add Angular resolver
+  ngOnInit() {
+    var addressObj = { address: sessionStorage.getItem('account-id') };
+    this.userService.viewUserInfo(addressObj)
+    .subscribe((data:any) => {
+      console.log(data);
+      if(data.isUser)
+        this.bioAdded = true;
+    })
+    console.log('initialising...');
+    this.initialise().then(() => {
+      this.dataIsReady = true;
+      this.renderPosts();
+      console.log('data is ready')
+    });
+  }
+
+  async initialise() {
+    const waitForSettingCurrentAcc = await this.setCurrentAccount();
+    const loadDataStore = await this.dbService.createDatastore();
+    const updateDemFollowers = await this.dbService.updateNumOfFollowers();
+    const web3 = await this.ethService.getWeb3Object();
+    console.log(web3);
+  }
+
+  setCurrentAccount() {
+    this.ethService.currentAccount()
+      .subscribe((data: any) => {
+        console.log(data);
+        if (data.length === 0) {
+          return;
+        }
+        this.accountIDs = data;
+        sessionStorage.setItem('account-id', this.accountIDs);
+        sessionStorage.setItem('metamask-verified', 'true');
+      }, (error: any) => {
+        console.log(error);
+      });
+    return;
+  }
+
+  searchUser() {
+    this.searchService.activateSearch('Search User');
+  }
+
+  async renderPosts() {
+    var self = this;
+    var dbFind = await GlobalConstants.userDb.find({}, function (err, docs) {
+      if (err)
+        console.log(err);
+      else
+        self.getFollowedUserPosts(docs);
+    });
+  }
+
+  getFollowedUserPosts(docs) {
+    if(docs){
+      docs.forEach(user => {
+        var addressObj = {
+          address: user.userID
+        };
+        this.userService.getUserPosts(addressObj)
+        .subscribe((data:any) => {
+          console.log(data);
+          data.forEach(post => {
+            this.posts.push(post);
+          });
+          this.usersFollowed = true;
+        })
+      });  
+    }
+  }
+
+  goToIPFSLink(hash)
+  {
+    window.open("https://ipfs.io/ipfs/" + hash, "_blank");
   }
 }

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+const IPFS = require('ipfs');
+const all = require('it-all')
 
 import { MENU_ITEMS } from './pages-menu';
 
@@ -12,7 +14,10 @@ import { MENU_ITEMS } from './pages-menu';
     </ngx-one-column-layout>
   `,
 })
-export class PagesComponent {
+export class PagesComponent implements OnInit {
 
   menu = MENU_ITEMS;
+
+  async ngOnInit() {
+  }
 }

@@ -9,30 +9,31 @@ import {
   NbSelectModule,
   NbListModule,
   NbIconModule,
+  NbInputModule,
+  NbLayoutModule,
+  NbSearchModule,
 } from '@nebular/theme';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 import { ThemeModule } from '../../@theme/theme.module';
 import { DashboardComponent } from './dashboard.component';
-import { StatusCardComponent } from './status-card/status-card.component';
-import { ContactsComponent } from './contacts/contacts.component';
-import { RoomsComponent } from './rooms/rooms.component';
-import { RoomSelectorComponent } from './rooms/room-selector/room-selector.component';
-import { TemperatureComponent } from './temperature/temperature.component';
-import { TemperatureDraggerComponent } from './temperature/temperature-dragger/temperature-dragger.component';
-import { KittenComponent } from './kitten/kitten.component';
-import { SecurityCamerasComponent } from './security-cameras/security-cameras.component';
-import { ElectricityComponent } from './electricity/electricity.component';
-import { ElectricityChartComponent } from './electricity/electricity-chart/electricity-chart.component';
-import { WeatherComponent } from './weather/weather.component';
-import { SolarComponent } from './solar/solar.component';
-import { PlayerComponent } from './rooms/player/player.component';
-import { TrafficComponent } from './traffic/traffic.component';
-import { TrafficChartComponent } from './traffic/traffic-chart.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PostComponent } from './post/post.component';
+import { CommonModule } from '@angular/common';
+import { CreatePostComponent } from './create-post/create-post.component';
+import { DragDropDirective } from './create-post/drag-drop-directive';
+import { IpfsService } from '../../shared/ipfs.service';
+import { NedbService } from '../../shared/nedb.service';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { UserProfileComponent } from '../user/user-profile/user-profile.component';
+import { UserSearchResultsComponent } from '../user/user-search-results/user-search-results.component';
+import { AddUserInfoComponent } from '../user/add-user-info/add-user-info.component';
+import { UserService } from '../../shared/user.service';
+import { LoaderComponent } from '../../shared/loader/loader.component';
+import { TransactionComponent } from '../../shared/transaction/transaction.component';
 
 @NgModule({
   imports: [
+    CommonModule,
     FormsModule,
     ThemeModule,
     NbCardModule,
@@ -44,26 +45,31 @@ import { FormsModule } from '@angular/forms';
     NbSelectModule,
     NbListModule,
     NbIconModule,
-    NbButtonModule,
-    NgxEchartsModule,
+    NbInputModule,
+    NbLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NbEvaIconsModule,
+    NbSearchModule,
   ],
   declarations: [
     DashboardComponent,
-    StatusCardComponent,
-    TemperatureDraggerComponent,
-    ContactsComponent,
-    RoomSelectorComponent,
-    TemperatureComponent,
-    RoomsComponent,
-    KittenComponent,
-    SecurityCamerasComponent,
-    ElectricityComponent,
-    ElectricityChartComponent,
-    WeatherComponent,
-    PlayerComponent,
-    SolarComponent,
-    TrafficComponent,
-    TrafficChartComponent,
+    PostComponent,
+    CreatePostComponent,
+    DragDropDirective,
+    UserProfileComponent,
+    UserSearchResultsComponent,
+    AddUserInfoComponent,
+    LoaderComponent,
+    TransactionComponent,
   ],
+  providers: [
+    IpfsService,
+    NedbService,
+    UserService,
+  ],
+  entryComponents: [
+    LoaderComponent
+  ]
 })
 export class DashboardModule { }

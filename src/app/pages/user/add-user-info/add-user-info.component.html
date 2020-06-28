@@ -1,0 +1,20 @@
+<custom-loader *ngIf="loading"></custom-loader>
+
+<nb-card size="medium">
+    <nb-card-header class="text-center">Add your bio here</nb-card-header>
+    <nb-card-body>
+
+        <form [(formGroup)]="userForm" style="margin-top: 10px;" (ngSubmit)="submitBio()" aria-labelledby="title">
+
+            <textarea nbInput formControlName="userBio" fullWidth height style="height: 255px;"
+                placeholder="Enter something awesome about yourself! (30 characters max)"
+                [status]="userForm.dirty && userForm.controls.userBio.touched ? (userForm.controls.userBio.invalid  ? 'danger' : 'success') : 'basic'"
+                [attr.aria-invalid]="userForm.controls.userBio.invalid && userForm.controls.userBio.touched ? true : null">
+            </textarea>
+
+            <div class="row" style="float: right; margin-top: 20px; margin-right: 10px;">
+                <button nbButton hero status="success">Submit</button>
+            </div>
+        </form>
+    </nb-card-body>
+</nb-card>

@@ -20,9 +20,12 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { EthereumModule } from './ethereum/ethereum.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -39,6 +42,7 @@ import {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    EthereumModule 
   ],
   bootstrap: [AppComponent],
 })

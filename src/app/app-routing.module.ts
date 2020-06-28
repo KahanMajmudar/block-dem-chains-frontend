@@ -1,52 +1,29 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import {
-  NbAuthComponent,
-  NbLoginComponent,
-  NbLogoutComponent,
-  NbRegisterComponent,
-  NbRequestPasswordComponent,
-  NbResetPasswordComponent,
-} from '@nebular/auth';
+import { AuthGuard } from './auth/guard/auth.guard';
+import { EthGuard } from './ethereum/shared/eth.guard';
+import { AddUserInfoComponent } from './pages/user/add-user-info/add-user-info.component';
 
 export const routes: Routes = [
   {
     path: 'pages',
     loadChildren: () => import('./pages/pages.module')
       .then(m => m.PagesModule),
+    canActivate: [EthGuard]
+  },
+  {
+    path: 'verify',
+    loadChildren: () => import('./ethereum/ethereum.module')
+      .then(m => m.EthereumModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'auth',
-    component: NbAuthComponent,
-    children: [
-      {
-        path: '',
-        component: NbLoginComponent,
-      },
-      {
-        path: 'login',
-        component: NbLoginComponent,
-      },
-      {
-        path: 'register',
-        component: NbRegisterComponent,
-      },
-      {
-        path: 'logout',
-        component: NbLogoutComponent,
-      },
-      {
-        path: 'request-password',
-        component: NbRequestPasswordComponent,
-      },
-      {
-        path: 'reset-password',
-        component: NbResetPasswordComponent,
-      },
-    ],
+    loadChildren: './auth/auth.module#NgxAuthModule',
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  {
+    path: '**', redirectTo: '/pages', pathMatch: 'full'
+  }
 ];
 
 const config: ExtraOptions = {
