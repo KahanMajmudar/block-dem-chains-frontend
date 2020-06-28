@@ -1,7 +1,7 @@
 # block-dem-chains-frontend
 
 <p align="center">
-  <img src="https://github.com/KahanMajmudar/block-dem-chains-frontend/blob/master/bdc-logo.jpg"/>
+  <img src="bdc-logo.jpg"/>
 </p>
 
 Devfolio's ETHIndia Online: Chain Runner
