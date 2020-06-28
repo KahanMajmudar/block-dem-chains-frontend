@@ -63,7 +63,7 @@ Each and every event from Account Creation to Creating Post is happening via Tra
 
 ### Search by Ethereum Address
 
-Currently our searching :mag: is based on the User's Metamask Ethereum Hash, if a User wants to search someone, they should know the Metamask hash of the corresponding User.
+Currently our searching :mag: is based on the User's Metamask Ethereum Address, if a User wants to search someone, they should know the Ethereum Address of the corresponding User.
 
 
 
