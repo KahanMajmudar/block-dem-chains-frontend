@@ -48,6 +48,7 @@ export class NgxRegisterComponent extends NbRegisterComponent {
     .subscribe((response: any) => {
       if(response._id)
       {
+        localStorage.setItem('user-name', this.user.fullName);
         this.toastrService.success('Success!', 'Registration successful!', {status: "success", limit: 1} );
         this.router.navigate(['/auth/login']);
         return;

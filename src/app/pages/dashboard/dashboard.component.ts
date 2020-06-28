@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
     private searchService: NbSearchService, private userService: UserService, private toastrService: NbToastrService) { }
 
   public accountIDs;
-  public posts;
+  public posts = [];
   public dataIsReady = false;
   public usersFollowed = false;
   public userIDToSearch;
@@ -92,7 +92,9 @@ export class DashboardComponent implements OnInit {
         this.userService.getUserPosts(addressObj)
         .subscribe((data:any) => {
           console.log(data);
-          this.posts = data;
+          data.forEach(post => {
+            this.posts.push(post);
+          });
           this.usersFollowed = true;
         })
       });  

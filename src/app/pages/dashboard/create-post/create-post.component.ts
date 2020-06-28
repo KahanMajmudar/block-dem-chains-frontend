@@ -50,7 +50,7 @@ export class CreatePostComponent implements OnInit {
 
   async upload() {
 
-    this.uploadingFlag = true;
+    // this.uploadingFlag = true;
     
     this.fileType = this.files[0].name.split('.').pop();
 

@@ -18,12 +18,19 @@ export class TransactionComponent implements OnInit {
   }
 
   getTransactions() {
-    var addressObj = { address: sessionStorage.getItem('account-id') };
-    console.log(addressObj);
+    var addressObj = { address: sessionStorage.getItem('account-id').toLowerCase() };
     this.userService.viewTransactions(addressObj)
     .subscribe((data:any) => {
       console.log(data);
+      data.forEach(transaction => {
+        this.transactions.push(transaction);
+      });
     })
+  }
+
+  openTransactionURL(hash)
+  {
+    window.open("https://ropsten.etherscan.io/tx/" + hash, "_blank");
   }
 
 }
