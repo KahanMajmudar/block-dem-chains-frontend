@@ -12,6 +12,7 @@ import {
   NbInputModule,
   NbLayoutModule,
   NbSearchModule,
+  NbTreeGridModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -51,6 +52,7 @@ import { TransactionComponent } from '../../shared/transaction/transaction.compo
     ReactiveFormsModule,
     NbEvaIconsModule,
     NbSearchModule,
+    NbTreeGridModule
   ],
   declarations: [
     DashboardComponent,

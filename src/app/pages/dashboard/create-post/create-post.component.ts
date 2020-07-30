@@ -31,6 +31,8 @@ export class CreatePostComponent implements OnInit {
   public fileType;
   public uploadingFlag = false;
 
+  selectedItemNgModel;
+  
   ngOnInit(): void {
   }
 

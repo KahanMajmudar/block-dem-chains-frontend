@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 var ModelViewer = require('metamask-logo')
 import { HostListener } from '@angular/core';
+import Web3 from 'web3';
+import { bindNodeCallback } from 'rxjs/observable/bindNodeCallback';
 
 @Component({
   selector: 'ngx-app',
@@ -18,21 +20,20 @@ export class EthereumComponent implements OnInit, OnDestroy {
   @HostListener('window:focus', ['$event'])
   onFocus(event: FocusEvent): void {
     this.ethService.getAccounts()
-    .subscribe((data: any) => {
-      console.log(data);
-      if(data.length === 0)
-      {
-        this.accountIDs = null;
-        sessionStorage.removeItem('account-id');
-        sessionStorage.removeItem('metamask-verified');
-        return;
-      }
-      this.accountIDs = data;
-      sessionStorage.setItem('account-id', this.accountIDs);
-      sessionStorage.setItem('metamask-verified', 'true');
-    }, (error:any) => {
-      console.log(error);
-    });
+      .subscribe((data: any) => {
+        console.log(data);
+        if (data.length === 0) {
+          this.accountIDs = null;
+          sessionStorage.removeItem('account-id');
+          sessionStorage.removeItem('metamask-verified');
+          return;
+        }
+        this.accountIDs = data;
+        sessionStorage.setItem('account-id', this.accountIDs);
+        sessionStorage.setItem('metamask-verified', 'true');
+      }, (error: any) => {
+        console.log(error);
+      });
     return;
   }
 
@@ -52,7 +53,16 @@ export class EthereumComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+
+    if (window["ethereum"]) {
+      window["web3"] = new Web3(window["ethereum"]);
+      await window["ethereum"].enable();
+    }
+    else if (window["web3"]) {
+      window["web3"] = new Web3(window["web3"].currentProvider);
+    }
+
     this.container = document.getElementById('logo-container')
     this.container.appendChild(this.viewer.container);
 
@@ -77,20 +87,19 @@ export class EthereumComponent implements OnInit, OnDestroy {
     this.ethService.getAccounts()
       .subscribe((data: any) => {
         console.log(data);
-        if(data.length === 0)
-        {
-          this.toastrService.info('Make sure to give access to this site under Settings -> Connections', 'Info', {status: "danger", limit: 1, duration: 8000} );
-          this.toastrService.danger('Please configure MetaMask account first!', 'Oops!', {status: "danger", limit: 3, duration: 5000} );
+        if (data.length === 0) {
+          this.toastrService.info('Make sure to give access to this site under Settings -> Connections', 'Info', { status: "danger", limit: 1, duration: 8000 });
+          this.toastrService.danger('Please configure MetaMask account first!', 'Oops!', { status: "danger", limit: 3, duration: 5000 });
           return;
         }
         this.accountIDs = data;
         sessionStorage.setItem('account-id', this.accountIDs);
         sessionStorage.setItem('metamask-verified', 'true');
-        this.toastrService.success('Let\'s Block some chains!', 'Wallet configured!', {status: "success", limit: 1} );
-        this.zone.run(()=>{
+        this.toastrService.success('Let\'s Block some chains!', 'Wallet configured!', { status: "success", limit: 1 });
+        this.zone.run(() => {
           this.router.navigate(['/pages/dashboard']);
         })
-      }, (error:any) => {
+      }, (error: any) => {
         console.log(error);
       });
   }

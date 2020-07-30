@@ -16,12 +16,12 @@
 
 <div *ngIf="uploadingFlag">
     <div id="nb-global-spinner" class="spinner">
-      <div class="blob blob-0"></div>
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
-      <div class="blob blob-4"></div>
-      <div class="blob blob-5"></div>
+        <div class="blob blob-0"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+        <div class="blob blob-5"></div>
     </div>
 </div>
 
@@ -44,12 +44,39 @@
                 </p>
             </ng-container>
 
-            <div class="form-group row" style="margin-top: 30px;">
+            <div class="form-group row">
+                <label class="label col-md-3 col-form-label" for="input-postTag">Tag</label>
+                <nb-select placeholder="Select category of post" fullWidth="true" formControlName="postTag"
+                    [(ngModel)]="selectedItemNgModel"
+                    [status]="postForm.dirty && postForm.controls.postTag.touched ? (postForm.controls.postTag.invalid  ? 'danger' : 'success') : 'basic'">
+                    <nb-option-group title="Technology">
+                        <nb-option value="General">General</nb-option>
+                        <nb-option value="Artificial Intelligence">Artificial Intelligence</nb-option>
+                        <nb-option value="Blockchain">Blockchain</nb-option>
+                        <nb-option value="Cloud Computing">Cloud Computing</nb-option>
+                        <nb-option value="Operating Systems">Operating Systems</nb-option>
+                        <nb-option value="Big Data">Big Data</nb-option>
+                        <nb-option value="Data Mining">Data Mining</nb-option>
+                        <nb-option value="Software Development">Software Development</nb-option>
+                        <nb-option value="Competitive Programming">Competitive Programming</nb-option>
+                        <nb-option value="Database">Database</nb-option>
+                        <nb-option value="Security">Security</nb-option>
+                        <nb-option value="Networks">Networks</nb-option>
+                        <nb-option value="Support">Support</nb-option>
+                    </nb-option-group>
+
+                    <nb-option-group title="Other">
+                        <nb-option value="Other">Other</nb-option>
+                    </nb-option-group>
+                </nb-select>
+            </div>
+
+            <!-- <div class="form-group row" style="margin-top: 30px;">
                 <label class="label" for="input-postTag">Tag</label>
                 <input type="text" formControlName="postTag" nbInput fullWidth fieldSize="large" shape="round"
                     placeholder="Category of post (Eg. Machine Learning, AI etc.)"
                     [status]="postForm.dirty && postForm.controls.postTag.touched ? (postForm.controls.postTag.invalid  ? 'danger' : 'success') : 'basic'">
-            </div>
+            </div> -->
             <ng-container *ngIf="postForm.controls.postTag.invalid && postForm.controls.postTag.touched">
                 <p class="caption status-danger" *ngIf="postForm.controls.postTag.errors?.required">
                     Post Tag is required!

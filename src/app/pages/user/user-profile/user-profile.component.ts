@@ -5,6 +5,7 @@ import { UserService } from '../../../shared/user.service';
 import { GlobalConstants } from '../../../common/data/global-constants';
 import { NedbService } from '../../../shared/nedb.service';
 import { Router } from '@angular/router';
+import { EthService } from '../../../ethereum/shared/eth.service';
 
 @Component({
   selector: 'ngx-user-profile',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
 export class UserProfileComponent implements OnInit {
 
   constructor(private dialogService: NbDialogService, private userService: UserService, private toastrService: NbToastrService,
-    private dbService: NedbService) { }
+    private dbService: NedbService, private ethService: EthService) { }
 
   public userName;
   public loading = false;
@@ -22,10 +23,28 @@ export class UserProfileComponent implements OnInit {
   public numOfUsersFollowed = 0;
   public usersFollowed;
 
-  ngOnInit(): void {
+  posts = [];
+
+  async ngOnInit() {
+    const waitForSettingCurrentAcc = await this.setCurrentAccount();
     this.getUserDetails();
     // this.nedbService.updateNumOfFollowers();
     this.checkUsersFollowed();
+    this.getPostsBySelf();
+  }
+
+  setCurrentAccount() {
+    this.ethService.currentAccount()
+      .subscribe((data: any) => {
+        if (data.length === 0) {
+          return;
+        }
+        sessionStorage.setItem('account-id', data);
+        sessionStorage.setItem('metamask-verified', 'true');
+      }, (error: any) => {
+        console.log(error);
+      });
+    return;
   }
 
   async getUserDetails() {
@@ -107,5 +126,23 @@ export class UserProfileComponent implements OnInit {
         self.checkUsersFollowed();
       }
     });
+  }
+
+  getPostsBySelf()
+  {
+    var addressObj = { address: sessionStorage.getItem('account-id') };
+    this.userService.getUserPosts(addressObj)
+    .subscribe((data:any) => {
+      console.log(data);
+      data.forEach(post => {
+        this.posts.push(post);
+      });
+      this.usersFollowed = true;
+    })
+  }
+
+  goToIPFSLink(hash)
+  {
+    window.open("https://ipfs.io/ipfs/" + hash, "_blank");
   }
 }

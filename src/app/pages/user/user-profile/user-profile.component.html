@@ -32,7 +32,7 @@
     <nb-card>
         <nb-card-header>
             <div class="text-center text-body">
-                Users following
+                <h5>Users following</h5>
             </div>
         </nb-card-header>
         <nb-card-body>
@@ -41,14 +41,60 @@
                     <nb-list-item *ngFor="let user of usersFollowed">
                         <nb-user [name]="user.userName" [title]="user.userID">
                         </nb-user>
-                        <button style="margin-left: auto;" (click)="unfollowUser(user.userID)" nbButton>Unfollow</button>
+                        <button style="margin-left: auto;" (click)="unfollowUser(user.userID)"
+                            nbButton>Unfollow</button>
                     </nb-list-item>
-                </nb-list>                
+                </nb-list>
             </ng-container>
             <ng-template #usersFollowedNotZero>
-                <h4 class="text-hint text-center">Follow a user by clickling the search button...</h4>
+                <h6 class="text-hint text-center">Follow a user by clickling the search button...</h6>
             </ng-template>
-            
+
+        </nb-card-body>
+    </nb-card>
+
+    <nb-card>
+        <nb-card-header>
+            <div class="text-center text-basic">
+                <h5>My Posts</h5>
+            </div>
+        </nb-card-header>
+        <nb-card-body>
+
+            <div *ngIf="posts.length == 0">
+                <h6 class="text-hint text-center">No posts to show!</h6>
+            </div>
+
+            <nb-list *ngIf="posts.length != 0">
+                <nb-list-item *ngFor="let post of posts">
+                    <nb-card style="flex: auto;">
+                        <nb-card-header>
+                            <div>
+                                <h6 class="text-basic text-center">{{post.title}}</h6>
+                                <div class="row">
+                                    <p class="text-hint text-left">Click on icon to view on IPFS</p>
+                                    <p style="margin-left: auto;" class="text-hint text-right">Posted under: <span
+                                            class="text-basic">{{post.tag}}</span></p>
+                                </div>
+                            </div>
+                        </nb-card-header>
+                        <nb-card-body>
+                            <div class="row" style="justify-content: center;">
+                                <img style="width: 150px;" class="text-center" (click)="goToIPFSLink(post.hash)"
+                                    src="../../../assets/images/file-icons/{{post.dataType}}.png" alt="File-Icon">
+                                <!-- <div class="row" style="margin-top: 10px; margin-left: 20px;">
+                      <h6 class="text-basic">Open link: <a href="https://ipfs.io/ipfs/{{post.hash}}">{{post.title}}</a></h6>
+                    </div> -->
+                            </div>
+                        </nb-card-body>
+                        <nb-card-footer>
+                            <h6 class="text-hint text-right">Post added on: {{post.creationTime*1000 | date: "medium"}}
+                            </h6>
+                        </nb-card-footer>
+                    </nb-card>
+                </nb-list-item>
+            </nb-list>
+
         </nb-card-body>
     </nb-card>
 </div>
