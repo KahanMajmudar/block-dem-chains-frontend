@@ -21,8 +21,8 @@ export class NgxRegisterComponent extends NbRegisterComponent {
   user: any = {};
   socialLinks: NbAuthSocialLink[] = [];
 
-  constructor(protected service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {},protected cd: ChangeDetectorRef,protected router: Router, 
-  private authService: AuthService, private toastrService: NbToastrService){
+  constructor(protected service: NbAuthService, @Inject(NB_AUTH_OPTIONS) protected options = {}, protected cd: ChangeDetectorRef, protected router: Router,
+    private authService: AuthService, private toastrService: NbToastrService) {
 
     super(service, options, cd, router);
 
@@ -30,13 +30,11 @@ export class NgxRegisterComponent extends NbRegisterComponent {
     this.showMessages = super.getConfigValue('forms.register.showMessages');
     this.strategy = super.getConfigValue('forms.register.strategy');
     this.socialLinks = super.getConfigValue('forms.login.socialLinks');
-  }  
+  }
 
-  register()
-  {
-    if(this.user.confirmPassword != this.user.password)
-    {
-      this.toastrService.danger('Passwords do not match!', 'Please verify password and try again.', {status: "danger", limit: 3} );
+  register() {
+    if (this.user.confirmPassword != this.user.password) {
+      this.toastrService.danger('Passwords do not match!', 'Please verify password and try again.', { status: "danger", limit: 3 });
       return;
     }
     var userObject = {
@@ -45,16 +43,15 @@ export class NgxRegisterComponent extends NbRegisterComponent {
       "password": this.user.password
     };
     this.authService.create(userObject)
-    .subscribe((response: any) => {
-      if(response._id)
-      {
-        localStorage.setItem('user-name', this.user.fullName);
-        this.toastrService.success('Success!', 'Registration successful!', {status: "success", limit: 1} );
-        this.router.navigate(['/auth/login']);
-        return;
-      }
-      this.toastrService.danger('Registration failed!', 'Please try again.', {status: "danger", limit: 3} );
-    });
+      .subscribe((response: any) => {
+        if (response.id) {
+          localStorage.setItem('user-name', this.user.fullName);
+          this.toastrService.success('Success!', 'Registration successful!', { status: "success", limit: 1 });
+          this.router.navigate(['/auth/login']);
+          return;
+        }
+        this.toastrService.danger('Registration failed!', 'Please try again.', { status: "danger", limit: 3 });
+      });
   }
 
 }
