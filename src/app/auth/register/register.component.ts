@@ -50,6 +50,7 @@ export class NgxRegisterComponent extends NbRegisterComponent {
           this.router.navigate(['/auth/login']);
           return;
         }
+      }, (error: any) => {
         this.toastrService.danger('Registration failed!', 'Please try again.', { status: "danger", limit: 3 });
       });
   }
